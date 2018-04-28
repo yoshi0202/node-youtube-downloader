@@ -1,0 +1,71 @@
+<html>
+    <head>
+        <title>youtube downloader</title>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    	<link rel="stylesheet" href="stylesheets/style.css">
+    </head>
+    <body>
+        <div class="wrap" id="download_field">
+            <p>Download URL</p>
+            <div id="spacer_download_field"></div>
+            <form>
+                <input type="text" id="download_url">
+	        </form>
+        </div>
+        <div class="wrap" id="search_field">
+            <p>Update MetaData</p>
+            <form id="update_metadata">
+                <div>
+                    <p>Artist</p>
+                    <input type="text" id="artist_name">
+                </div>
+                <div>
+                    <p>Album</p>
+                    <input type="text" id="album_name">
+                </div>
+                <div>
+                    <p>Songs</p>
+                    <input type="text" id="song_name">
+                </div>
+            </form>
+            <div id="spacer_search_field"></div>
+            <p>MetaData Search</p>
+            <form>
+                <div id="metadata_search">
+                    <p>Artist</p>
+                    <input type="text" id="search_artist">
+                </div>
+                <div id="metadata_search">
+                    <p>Songs</p>
+                    <input type="text" id="search_songname">
+                </div>
+                <button type="button" id="search">Search</button>
+            </form>
+            <div id="result_field">
+            </div>
+        </div>
+        <div class="wrap" id="volume_filed">
+            <p>Volume Normarize</p>
+            <input class="checkbox" type="radio" name="s2" id="on" value="1" checked="">
+            <label for="on" class="switch-on">Yes</label>
+            <input class="checkbox" type="radio" name="s2" id="off" value="0">
+            <label for="off" class="switch-off">No</label>
+            <form id="target_on">
+                <p>Target Volume</p>
+                <input type="number" id="volume" min="0" max="100" step="1" value="89">
+            </form>
+        </div>
+        <div class="wrap" id="exec_filed">
+            <p>Program Exec!</p>
+            <form>
+                <button type="button" id="program_exec">Run Program!</button>
+            </form>
+            <div id="error_field"></div>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="javascripts/main.js"></script>
+        <script type="text/javascript" src="javascripts/acordion.js"></script>
+    </body>
+</html>
