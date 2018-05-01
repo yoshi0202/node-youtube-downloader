@@ -1,6 +1,6 @@
 $(document).ready( function(){
     //初期設定
-    let path = "http://" + location.hostname + ":3000/";
+    let path = "http://" + location.hostname + "/";
     let errflg = false;
     let client_errmsg = "";
 

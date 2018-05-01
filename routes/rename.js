@@ -10,13 +10,14 @@ router.post('/', function(req, res, next) {
   let artist_name = req.body.artist_name;
   let album_name = req.body.album_name;
   let song_name = req.body.song_name;
+  let oldMask = process.umask(0);
   //asyncで順次処理
   async.series([
     function(callback){
       //アーティストディレクトリがなければ作成
       let dirpath = config.moveToFilePath + artist_name;
       if(!fs.existsSync(dirpath)){
-        fs.mkdir(dirpath,function(err){
+        fs.mkdir(dirpath, '0777', function(err){
           if(err){
             console.log(err);
             callback(err,1)
@@ -32,7 +33,7 @@ router.post('/', function(req, res, next) {
       //アルバムディレクトリがなければ作成
       let dirpath = config.moveToFilePath + artist_name + "/" + album_name;
       if(!fs.existsSync(dirpath)){
-        fs.mkdir(dirpath,function(err){
+        fs.mkdir(dirpath, '0777', function(err){
           if(err){
             console.log(err);
             callback(err,1)
@@ -46,7 +47,7 @@ router.post('/', function(req, res, next) {
     },
     function(callback){
       //リネーム処理
-      fs.rename(config.music.fileName, config.moveToFilePath + artist_name + "/" + album_name + "/" + song_name + ".mp3", function (err) {
+      fs.createReadStream(config.music.fileName).pipe(fs.createWriteStream(config.moveToFilePath + artist_name + "/" + album_name + "/" + song_name + ".mp3")).on('finish',function(err){
         if(err){
           console.log(err);
           callback(err,1)
@@ -63,6 +64,7 @@ router.post('/', function(req, res, next) {
       //正常終了
       res.status(200).send('ok');
     }
+    process.umask(oldMask);//マスクを戻す
   });
 });
 

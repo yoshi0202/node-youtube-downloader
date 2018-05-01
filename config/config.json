@@ -1,0 +1,21 @@
+{
+    "gracenote":{
+        "clientId": "your clientid",
+        "clientTag": "your clienttag",
+        "userId": "your userid"
+    },
+    "app": {
+        "port": "your port"
+    },
+    "music": {
+        "fileName": "tmp.mp3"
+    },
+    "cmd":{
+        "aacgain":{
+            "path": "your normalize path",
+            "option": "-r -c -p",
+            "baseVolume": "89"
+        }
+    },
+    "moveToFilePath": "your data path"
+}
