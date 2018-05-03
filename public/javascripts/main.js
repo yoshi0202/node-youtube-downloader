@@ -1,7 +1,6 @@
 $(document).ready( function(){
     //初期設定
     let path = "http://" + location.hostname + "/";
-    let errflg = false;
     let client_errmsg = "";
 
     //Program実行処理
@@ -27,25 +26,25 @@ $(document).ready( function(){
             return;
         }
         //すべての判定にクリア時、サーバ処理に繋げる
-        if(errflg != true){
+        let download_url = $("#download_url").val();
+        //promiseオブジェクト作成
+        new Promise(function(resolve,reject){
             //ダウンロード処理
-            let download_url = $("#download_url").val();
             $.ajax({
                 url : path +"download",
                 type : "POST",
                 data : {
                     download_url : download_url
                 },
-                dataType: 'text',
-                async: false
+                dataType: 'text'
             }).done(function(data){
                 //ダウンロード処理終了
+                resolve();
             }).fail(function(err){
-                alert("ダウンロードに失敗:" + err)
-                errflg = true;
+                alert("ダウンロードに失敗:" + JSON.stringify(err))
+                reject(err);
             });
-        }
-        if(errflg != true){
+        }).then(function(result){
             //メタデータ更新処理
             let artist_name = $("#artist_name").val();
             let album_name = $("#album_name").val();
@@ -58,16 +57,15 @@ $(document).ready( function(){
                     album_name : album_name,
                     song_name : song_name
                 },
-                dataType: 'text',
-                async: false
+                dataType: 'text'
             }).done(function(result){
                 //メタデータ更新処理終了
+                resolve();
             }).fail(function(err){
-                alert("メタデータ更新に失敗:" + err);
-                errflg = true;
+                alert("メタデータ更新に失敗:" + JSON.stringify(err));
+                reject(err);
             });
-        }
-        if(errflg != true && $('.checkbox:checked').val() === "1" ){
+        }).then(function(result){
             //ノーマライズ処理
             let volume = $("#volume").val();
             $.ajax({
@@ -76,16 +74,15 @@ $(document).ready( function(){
                 data : {
                     volume: volume
                 },
-                dataType: 'text',
-                async: false
+                dataType: 'text'
             }).done(function(result){
                 //ノーマライズ処理終了
+                resolve();
             }).fail(function(err){
-                alert("ノーマライズ処理に失敗:" + err);
-                errflg = true;
+                alert("ノーマライズ処理に失敗:" + JSON.stringify(err));
+                reject(err);
             });
-        }
-        if(errflg != true){
+        }).then(function(result){
             //フォルダ移動、リネーム処理
             let artist_name = $("#artist_name").val();
             let album_name = $("#album_name").val();
@@ -98,21 +95,24 @@ $(document).ready( function(){
                     album_name : album_name,
                     song_name : song_name
                 },
-                dataType: 'text',
-                async: false
+                dataType: 'text'
             }).done(function(result){
                 //フォルダ移動、リネーム処理終了
+                resolve();
             }).fail(function(err){
                 alert("リネーム処理失敗:" + JSON.stringify(err));
-                errflg = true;
+                reject(err);
             });
-        }
-        //処理終了のためerrflgを戻す
-        errflg = false;
-        alert("ダウンロード完了");
+        }).then(function(result){
+            //処理完了
+            alert("ダウンロード完了");
+        }).catch(function(e){
+            //エラー処理
+            alert("エラー発生:" + JSON.stringify(e));
+        });
     });
     
-    //検索機能
+    //メタデータ検索機能
     $('#search').click(function(){
         let search_artist = $("#search_artist").val();
         let search_songname = $("#search_songname").val();
